@@ -1,6 +1,6 @@
 --- src/Terraria/Terraria/PopupText.cs
 +++ src/tModLoader/Terraria/PopupText.cs
-@@ -1,6 +_,8 @@
+@@ -1,10 +_,12 @@
  using Microsoft.Xna.Framework;
  using Terraria.GameContent;
 +using Terraria.ID;
@@ -9,6 +9,11 @@
  
  namespace Terraria
  {
+-	public class PopupText
++	public partial class PopupText
+ 	{
+ 		public Vector2 position;
+ 		public Vector2 velocity;
 @@ -25,6 +_,7 @@
  		public static int sonarText = -1;
  		public bool expert;

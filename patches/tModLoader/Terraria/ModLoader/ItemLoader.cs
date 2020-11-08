@@ -520,6 +520,29 @@ namespace Terraria.ModLoader
 			return true;
 		}
 
+		private delegate bool? DelegateConsumeBait(Item bait, Player player);
+		private static HookList HookConsumeBait = AddHook<DelegateConsumeBait>(p => p.ConsumeBait);
+		public static bool? ConsumeBait(Player player, Item bait) {
+			if (bait.IsAir)
+				return null;
+
+			bool? result = null;
+
+			foreach (GlobalItem g in HookConsumeBait.arr) {
+				bool? consumeBait = g.Instance(bait).ConsumeBait(bait, player);
+
+				if (consumeBait.HasValue) {
+					if (!consumeBait.Value) {
+						return false;
+					}
+
+					result = true;
+				}
+			}
+
+			return result ?? bait.modItem?.ConsumeBait(player);
+		}
+
 		private static HookList HookOnConsumeAmmo = AddHook<Action<Item, Player>>(g => g.OnConsumeAmmo);
 		/// <summary>
 		/// Calls ModItem.OnConsumeAmmo for the weapon, ModItem.OnConsumeAmmo for the ammo, then each GlobalItem.OnConsumeAmmo hook for the weapon and ammo.
