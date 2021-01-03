@@ -12,14 +12,10 @@
 			this.multiplicative = multiplicative;
 		}
 
-		public override bool Equals(object obj) {
-			if (!(obj is Modifier))
-				return false;
+		public Modifier CombineWith(Modifier that) =>
+			new Modifier(additive + that.additive - 1, multiplicative * that.multiplicative);
 
-			var m = (Modifier)obj;
-			return additive == m.additive &&
-				   multiplicative == m.multiplicative;
-		}
+		public override bool Equals(object obj) => (obj is Modifier that) && (this == that);
 
 		public override int GetHashCode() {
 			int hashCode = 1713062080;
@@ -40,8 +36,6 @@
 		public static Modifier operator /(Modifier m, float div) =>
 			new Modifier(m.additive, m.multiplicative / div);
 
-		public static Modifier operator &(Modifier m1, Modifier m2) =>
-			new Modifier(m1.additive + m2.additive - 1, m1.multiplicative * m2.multiplicative);
 
 		public static Modifier operator +(float add, Modifier m) => m + add;
 		public static Modifier operator *(float mul, Modifier m) => m * mul;
