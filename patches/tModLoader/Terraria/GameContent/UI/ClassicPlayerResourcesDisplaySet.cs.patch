@@ -1,0 +1,11 @@
+--- src/Terraria/Terraria/GameContent/UI/ClassicPlayerResourcesDisplaySet.cs
++++ src/tModLoader/Terraria/GameContent/UI/ClassicPlayerResourcesDisplaySet.cs
+@@ -4,7 +_,7 @@
+ 
+ namespace Terraria.GameContent.UI
+ {
+-	public class ClassicPlayerResourcesDisplaySet : IPlayerResourcesDisplaySet
++	public partial class ClassicPlayerResourcesDisplaySet : IPlayerResourcesDisplaySet
+ 	{
+ 		private int UIDisplay_ManaPerStar = 20;
+ 		private float UIDisplay_LifePerHeart = 20f;

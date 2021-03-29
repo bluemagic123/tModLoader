@@ -1,0 +1,11 @@
+--- src/Terraria/Terraria/GameContent/UI/HorizontalBarsPlayerReosurcesDisplaySet.cs
++++ src/tModLoader/Terraria/GameContent/UI/HorizontalBarsPlayerReosurcesDisplaySet.cs
+@@ -5,7 +_,7 @@
+ 
+ namespace Terraria.GameContent.UI
+ {
+-	public class HorizontalBarsPlayerReosurcesDisplaySet : IPlayerResourcesDisplaySet
++	public partial class HorizontalBarsPlayerReosurcesDisplaySet : IPlayerResourcesDisplaySet
+ 	{
+ 		private int _maxSegmentCount;
+ 		private int _hpSegmentsCount;

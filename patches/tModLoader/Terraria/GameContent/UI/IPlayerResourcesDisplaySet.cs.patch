@@ -1,0 +1,10 @@
+--- src/Terraria/Terraria/GameContent/UI/IPlayerResourcesDisplaySet.cs
++++ src/tModLoader/Terraria/GameContent/UI/IPlayerResourcesDisplaySet.cs
+@@ -1,6 +_,6 @@
+ namespace Terraria.GameContent.UI
+ {
+-	public interface IPlayerResourcesDisplaySet
++	public partial interface IPlayerResourcesDisplaySet
+ 	{
+ 		void Draw();
+ 

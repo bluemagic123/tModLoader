@@ -417,6 +417,7 @@ namespace Terraria.ModLoader
 
 			MenuLoader.GotoSavedModMenu();
 			BossBarLoader.GotoSavedStyle();
+			ResourcesDisplayStyleLoader.GotoSavedDisplayStyle();
 		}
 		
 		private static void CacheVanillaState() {
@@ -554,6 +555,7 @@ namespace Terraria.ModLoader
 			TagSerializer.Reload();
 			ModNet.Unload();
 			Config.ConfigManager.Unload();
+			ResourcesDisplayStyleLoader.Unload();
 			CustomCurrencyManager.Initialize();
 			EffectsTracker.RemoveModEffects();
 			
