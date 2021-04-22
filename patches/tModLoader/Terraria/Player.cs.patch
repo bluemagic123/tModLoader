@@ -57,15 +57,7 @@
  		public int[] builderAccStatus = new int[12] {
  			1,
  			0,
-@@ -438,7 +_,7 @@
- 		public Vector2 lastDeathPostion;
- 		public DateTime lastDeathTime;
- 		public bool showLastDeath;
--		public int extraAccessorySlots = 2;
-+		private int extraAccessorySlots; //unused vanilla field, noob trap
- 		public bool extraAccessory;
- 		private bool dontConsumeWand;
- 		public int tankPet = -1;
+
 @@ -694,7 +_,7 @@
  		public bool poundRelease;
  		public float ghostFade;
@@ -1500,13 +1492,13 @@
  				}
  
  				if (armor[k].prefix == 73)
-@@ -9276,6 +_,22 @@
+@@ -9276,6 +_,24 @@
  
  				if (armor[k].prefix == 80)
  					meleeSpeed += 0.04f;
 +
 +				ItemLoader.UpdateEquip(armor[k], this);
-+			}
+ 			}
 +		}
 +
 +		public void UpdateEquips(int i)
@@ -1520,15 +1512,20 @@
 +			for (int k = 0; k < 10; k++) {
 +				if (IsAValidEquipmentSlotForIteration(k))
 +					VanillaUpdateEquip(armor[k]);
- 			}
++			}
++			
++			AccessorySlotLoader.VanillaUpdateEquipsMirror(this);
  
  			equippedAnyWallSpeedAcc = false;
-@@ -9286,21 +_,30 @@
+@@ -9286,21 +_,33 @@
  
  			for (int l = 3; l < 10; l++) {
  				if (IsAValidEquipmentSlotForIteration(l))
 -					ApplyEquipFunctional(l, armor[l]);
 +					ApplyEquipFunctional(armor[l], hideVisibleAccessory[l]);
++				
++				if (SoundLoader.itemToMusic.ContainsKey(armor[l].type))
++					Main.musicBox2 = SoundLoader.itemToMusic[armor[l].type];
  			}
  
 +			PlayerHooks.UpdateEquips(this);
@@ -1556,11 +1553,12 @@
  				minionKB += 0.5f;
  			}
  
-@@ -9309,6 +_,7 @@
+@@ -9309,6 +_,8 @@
  				maxTurrets++;
  			}
  
-+			/* wing loop is merged into ApplyEquipFunctional
++			/*
++			// wing loop is merged into ApplyEquipFunctional
  			for (int m = 3; m < 10; m++) {
  				if (armor[m].wingSlot > 0 && IsAValidEquipmentSlotForIteration(m)) {
  					if (!hideVisibleAccessory[m] || (velocity.Y != 0f && !mount.Active))
@@ -1584,7 +1582,7 @@
  		}
  
  		private void ApplyEquipVanity(int itemSlot, Item currentItem) {
-+			ApplyEquipVanity(currentItem); //remove itemSlot parameter and make public so mods can call from their own accessory slots
++			ApplyEquipVanity(currentItem);
 +		}
 +
 +		public void ApplyEquipVanity(Item currentItem) {
@@ -1685,19 +1683,29 @@
  			}
  
  			if (currentItem.wingSlot != -1)
-@@ -10390,9 +_,9 @@
+@@ -10390,9 +_,19 @@
  			}
  
++			if (currentItem.wingSlot > 0) {
++				if (!hideVisibleAccessory[itemSlot] || velocity.Y != 0f && !mount.Active)
++					wings = currentItem.wingSlot;
++
++				wingsLogic = currentItem.wingSlot;
++				equippedWings = currentItem;
++			}
++
++			ItemLoader.UpdateAccessory(currentItem, this, hideVisual);
++
  			if (Main.myPlayer != whoAmI)
 -				return;
-+				return; // TODO: double check wings logic, etc.
++				return; // return early if sounds are not relevant
  
 -			if (currentItem.type == 576 && Main.rand.Next(540) == 0 && Main.curMusic > 0 && Main.curMusic <= 90) {
 +			if (currentItem.type == 576 && Main.rand.Next(540) == 0 && Main.curMusic > 0) {
  				SoundEngine.PlaySound(SoundID.Item166, base.Center);
  				int num3 = -1;
  				if (Main.curMusic == 1)
-@@ -10554,13 +_,26 @@
+@@ -10554,10 +_,14 @@
  					currentItem.SetDefaults(5040);
  				else if (Main.curMusic == 89)
  					currentItem.SetDefaults(5044);
@@ -1713,18 +1721,6 @@
  			}
  
  			ApplyMusicBox(currentItem);
-+
-+			if (currentItem.wingSlot > 0) {
-+				if (!hideVisibleAccessory[itemSlot] || velocity.Y != 0f && !mount.Active)
-+					wings = currentItem.wingSlot;
-+
-+				wingsLogic = currentItem.wingSlot;
-+			}
-+
-+			ItemLoader.UpdateAccessory(currentItem, this, hideVisual);
- 		}
- 
- 		private void ApplyMusicBox(Item currentItem) {
 @@ -10747,6 +_,9 @@
  			if (currentItem.type == 5044)
  				Main.musicBox2 = 85;
@@ -1829,6 +1825,14 @@
  			if (!dead) {
  				Point point2 = base.Center.ToTileCoordinates();
  				if (WorldGen.InWorld(point2.X, point2.Y, 1)) {
+@@ -11875,6 +_,7 @@
+ 			ResetFloorFlags();
+ 			wings = 0;
+ 			wingsLogic = 0;
++			equippedWings = null;
+ 			ResetVisibleAccessories();
+ 			poisoned = false;
+ 			venom = false;
 @@ -11916,8 +_,9 @@
  			hasGingerBeard = false;
  			hasRainbowCursor = false;
@@ -1978,6 +1982,14 @@
  			coolWhipBuff = false;
  			yoraiz0rEye = 0;
  			yoraiz0rDarkness = false;
+@@ -13016,6 +_,7 @@
+ 			slowOgreSpit = false;
+ 			wings = 0;
+ 			wingsLogic = 0;
++			equippedWings = null;
+ 			wingTimeMax = 0;
+ 			brokenArmor = false;
+ 			silence = false;
 @@ -13120,7 +_,9 @@
  				}
  			}
@@ -2953,7 +2965,8 @@
 +		/// <param name="item"></param>
 +		public void UpdateVisibleAccessory(Item item) => UpdateVisibleAccessory(-1, item);
 +
- 		private void UpdateVisibleAccessory(int itemSlot, Item item) {
+-		private void UpdateVisibleAccessory(int itemSlot, Item item) {
++		internal void UpdateVisibleAccessory(int itemSlot, Item item) {
  			if (item.stringColor > 0)
  				stringColor = item.stringColor;
 @@ -26057,6 +_,8 @@
@@ -2992,6 +3005,14 @@
  				if (buffTime[i] > 0 && buffType[i] == 59)
  					DelBuff(i);
  			}
+@@ -26674,6 +_,7 @@
+ 				NetMessage.SendData(62, -1, -1, null, whoAmI, 1f);
+ 		}
+ 
++		//TODO: what does this method accomplish? Just determining frost and bone armor?
+ 		public void ApplyArmorSoundAndDustChanges() {
+ 			int num = armor[0].headSlot;
+ 			int num2 = armor[1].bodySlot;
 @@ -26736,6 +_,12 @@
  					return 0.0;
  				}
@@ -3794,6 +3815,16 @@
  
  				if (projToShoot == 76) {
  					projToShoot += Main.rand.Next(3);
+@@ -34107,6 +_,9 @@
+ 				return;
+ 			}
+ 
++			if (AccessorySlotLoader.VanillaPreferredGolfBallMirror(ref projType))
++				return;
++
+ 			for (int num = 19; num >= 0; num--) {
+ 				if (IsAValidEquipmentSlotForIteration(num)) {
+ 					_ = num % 10;
 @@ -34460,6 +_,10 @@
  		}
  
@@ -4425,10 +4456,23 @@
  			for (int i = 3; i < 10; i++) {
  				int type = newPlayer.armor[i].type;
  				if (type == 908 || type == 4874 || type == 5000)
-@@ -38206,6 +_,7 @@
+@@ -38198,14 +_,19 @@
+ 				if (type == 906 || type == 4038)
+ 					newPlayer.lavaMax += 420;
+ 
+-				if (newPlayer.wingsLogic == 0 && newPlayer.armor[i].wingSlot >= 0)
++				if (newPlayer.wingsLogic == 0 && newPlayer.armor[i].wingSlot >= 0) {
+ 					newPlayer.wingsLogic = newPlayer.armor[i].wingSlot;
++					newPlayer.equippedWings = newPlayer.armor[i];
++				}
++					
+ 
+ 				if (type == 158 || type == 396 || type == 1250 || type == 1251 || type == 1252)
+ 					newPlayer.noFallDmg = true;
  
  				newPlayer.lavaTime = newPlayer.lavaMax;
  			}
++			AccessorySlotLoader.VanillaLastMinuteFixesMirror(newPlayer);
 +			newPlayer.ResetEffects();
  		}
  

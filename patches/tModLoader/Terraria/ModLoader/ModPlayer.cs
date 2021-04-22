@@ -6,7 +6,6 @@ using System.IO;
 using System.Linq;
 using Terraria.DataStructures;
 using Terraria.GameInput;
-using Terraria.ID;
 using Terraria.ModLoader.IO;
 
 namespace Terraria.ModLoader

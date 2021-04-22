@@ -13,8 +13,7 @@ namespace Terraria.ModLoader
 	/// <summary>
 	/// This serves as a central place to store equipment slots and their corresponding textures. You will use this to obtain the IDs for your equipment textures.
 	/// </summary>
-	public static class EquipLoader
-	{
+	public static class EquipLoader {
 		internal static readonly IDictionary<EquipType, int> nextEquip = new Dictionary<EquipType, int>();
 
 		internal static readonly IDictionary<EquipType, IDictionary<int, EquipTexture>> equipTextures =
@@ -80,12 +79,12 @@ namespace Terraria.ModLoader
 			//Sets
 			LoaderUtils.ResetStaticMembers(typeof(ArmorIDs), true);
 			WingStatsInitializer.Load();
-			
+
 			foreach (EquipType type in EquipTypes) {
 				foreach (var entry in equipTextures[type]) {
 					int slot = entry.Key;
 					EquipTexture texture = entry.Value;
-					
+
 					GetTextureArray(type)[slot] = ModContent.GetTexture(texture.Texture);
 
 					if (type == EquipType.Body) {
@@ -96,7 +95,7 @@ namespace Terraria.ModLoader
 			}
 
 			Array.Resize(ref Item.headType, nextEquip[EquipType.Head]);
-			
+
 			foreach (var entry in slotToId[EquipType.Head]) {
 				Item.headType[entry.Key] = entry.Value;
 			}
@@ -108,7 +107,7 @@ namespace Terraria.ModLoader
 			}
 
 			Array.Resize(ref Item.legType, nextEquip[EquipType.Legs]);
-			
+
 			foreach (var entry in slotToId[EquipType.Legs]) {
 				Item.legType[entry.Key] = entry.Value;
 			}
