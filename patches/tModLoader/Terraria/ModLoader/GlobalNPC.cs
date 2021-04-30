@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using Terraria.GameContent;
 using Terraria.GameContent.Bestiary;
 using Terraria.GameContent.ItemDropRules;
 using Terraria.ModLoader.Core;
@@ -516,6 +517,16 @@ namespace Terraria.ModLoader
 		/// <param name="shop"></param>
 		/// <param name="nextSlot"></param>
 		public virtual void SetupTravelShop(int[] shop, ref int nextSlot) {
+		}
+
+		/// <summary>
+		/// Allows you to set an NPC's biome preferences and nearby npc preferences for the NPC happiness system. Recommended to only be used with NPCs that have shops.
+		/// </summary>
+		/// <param name="npc"></param>
+		/// <param name="shopHelperInstance"></param>
+		/// <param name="primaryPlayerBiome"></param>
+		/// <param name="nearbyNPCsByType"></param>
+		public virtual void NPCHappiness(NPC npc, int primaryPlayerBiome, ref ShopHelper shopHelperInstance, ref bool[] nearbyNPCsByType) {
 		}
 
 		/// <summary>

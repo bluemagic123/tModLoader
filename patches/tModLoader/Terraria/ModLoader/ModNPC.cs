@@ -547,6 +547,15 @@ namespace Terraria.ModLoader
 		}
 
 		/// <summary>
+		/// Allows you to set an NPC's biome preferences and nearby npc preferences for the NPC happiness system. Recommended to only be used with NPCs that have shops.
+		/// </summary>
+		/// <param name="shopHelperInstance"></param>
+		/// <param name="primaryPlayerBiome"></param>
+		/// <param name="nearbyNPCsByType"></param>
+		public virtual void NPCHappiness(int primaryPlayerBiome, ref ShopHelper shopHelperInstance, ref bool[] nearbyNPCsByType) {
+		}
+
+		/// <summary>
 		/// Allows you to define special conditions required for this town NPC's house. For example, Truffle requires the house to be in an aboveground mushroom biome.
 		/// </summary>
 		/// <param name="left"></param>
