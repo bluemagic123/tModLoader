@@ -170,6 +170,16 @@ namespace Terraria.ModLoader
 			}
 		}
 
+		private static HookList HookOnSpawn = AddHook<Action<Item, IItemSource>>(g => g.OnSpawn);
+
+		internal static void OnSpawn(Item item, IItemSource source) {
+			item.ModItem?.OnSpawn(source);
+
+			foreach (GlobalItem g in HookOnSpawn.Enumerate(item.globalItems)) {
+				g.OnSpawn(item, source);
+			}
+		}
+
 		private static HookList HookOnCreate = AddHook<Action<Item, ItemCreationContext>>(g => g.OnCreate);
 		public static void OnCreate(Item item, ItemCreationContext context) {
 			foreach (var g in HookOnCreate.Enumerate(item.globalItems)) {

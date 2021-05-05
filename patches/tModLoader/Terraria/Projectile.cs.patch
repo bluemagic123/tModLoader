@@ -142,17 +142,6 @@
  
  			width = (int)((float)width * scale);
  			height = (int)((float)height * scale);
-@@ -7951,6 +_,10 @@
- 			return result;
- 		}
- 
-+		//TODO: TML addition, must be moved to a partial.
-+		public static Projectile NewProjectileDirect(IProjectileSource spawnSource, Vector2 position, Vector2 velocity, int Type, int Damage, float KnockBack, int Owner = 255, float ai0 = 0f, float ai1 = 0f)
-+			=> Main.projectile[Projectile.NewProjectile(spawnSource, position.X, position.Y, velocity.X, velocity.Y, Type, Damage, KnockBack, Owner, ai0, ai1)];
-+
- 		public static int NewProjectile(IProjectileSource spawnSource, Vector2 position, Vector2 velocity, int Type, int Damage, float KnockBack, int Owner = 255, float ai0 = 0f, float ai1 = 0f) => NewProjectile(spawnSource, position.X, position.Y, velocity.X, velocity.Y, Type, Damage, KnockBack, Owner, ai0, ai1);
- 
- 		public static int FindOldestProjectile() {
 @@ -8031,7 +_,7 @@
  				projectile.ai[1] = projectile.position.Y;
  			}
@@ -161,6 +150,28 @@
 +			if (Type > 0) {
  				if (ProjectileID.Sets.NeedsUUID[Type])
  					projectile.projUUID = projectile.identity;
+ 
+@@ -8042,9 +_,6 @@
+ 				}
+ 			}
+ 
+-			if (Main.netMode != 0 && Owner == Main.myPlayer)
+-				NetMessage.SendData(27, -1, -1, null, num);
+-
+ 			if (Owner == Main.myPlayer) {
+ 				if (ProjectileID.Sets.IsAGolfBall[Type] && Damage <= 0) {
+ 					int num3 = 0;
+@@ -8158,6 +_,11 @@
+ 			if (Type == 249)
+ 				projectile.frame = Main.rand.Next(5);
+ 
++			ProjectileLoader.OnSpawn(projectile, spawnSource);
++
++			if (Main.netMode != 0 && Owner == Main.myPlayer)
++				NetMessage.SendData(27, -1, -1, null, num);
++			
+ 			return num;
+ 		}
  
 @@ -8872,9 +_,20 @@
  		}

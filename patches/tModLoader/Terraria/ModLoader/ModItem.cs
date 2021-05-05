@@ -92,6 +92,12 @@ namespace Terraria.ModLoader
 		/// </summary>
 		public virtual void SetDefaults() {
 		}
+		
+		/// <summary>
+		/// Gets called when your item spawns in world
+		/// </summary>
+		public virtual void OnSpawn(IItemSource source) {
+		}
 
 		public virtual void OnCreate(ItemCreationContext context) {
 		}
