@@ -4036,10 +4036,10 @@
  				}
  			}
  
++			bool shootWithNoAmmo = false;
 +			if (!canShoot && !ItemLoader.NeedsAmmo(sItem, this)) {
-+				canShoot = true;
++				canShoot = shootWithNoAmmo = true;
 +				item.SetDefaults(sItem.useAmmo);
-+				item.consumable = false;
 +			}
 +
  			if (!canShoot)
@@ -4075,7 +4075,7 @@
  			}
  			else {
  				Damage += item.damage;
-@@ -36560,11 +_,12 @@
+@@ -36560,11 +_,15 @@
  					if (speed > 20f)
  						speed = 20f;
  				}
@@ -4087,6 +4087,9 @@
  
  			KnockBack += item.knockBack;
 +			ItemLoader.PickAmmo(sItem, item, this, ref projToShoot, ref speed, ref Damage, ref KnockBack);
++			if (shootWithNoAmmo)
++				return;
++
  			bool flag2 = dontConsume;
  			if (sItem.type == 3475 && Main.rand.Next(3) != 0)
  				flag2 = true;
