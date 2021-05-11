@@ -4032,6 +4032,19 @@
  		}
  
  		public bool HasAmmo(Item sItem, bool canUse) {
+@@ -36484,6 +_,12 @@
+ 				}
+ 			}
+ 
++			if (!canShoot && !ItemLoader.NeedsAmmo(sItem, this)) {
++				canShoot = true;
++				item.SetDefaults(sItem.useAmmo);
++				item.consumable = false;
++			}
++
+ 			if (!canShoot)
+ 				return;
+ 
 @@ -36491,8 +_,11 @@
  			int pickedProjectileId = -1;
  			if (PickAmmo_TryFindingSpecificMatches(sItem.type, item.type, out pickedProjectileId))
