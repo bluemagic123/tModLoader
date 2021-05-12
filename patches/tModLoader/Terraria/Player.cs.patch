@@ -4032,6 +4032,16 @@
  		}
  
  		public bool HasAmmo(Item sItem, bool canUse) {
+@@ -36436,6 +_,9 @@
+ 						break;
+ 					}
+ 				}
++
++				if (!canUse)
++					canUse = !ItemLoader.NeedsAmmo(sItem, this);
+ 			}
+ 
+ 			return canUse;
 @@ -36484,6 +_,12 @@
  				}
  			}
