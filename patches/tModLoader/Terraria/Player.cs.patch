@@ -1934,6 +1934,16 @@
  							SmartSelect_SelectItem(i);
  							return;
  						}
+@@ -12193,6 +_,9 @@
+ 								}
+ 							}
+ 
++							if (!flag2 && !ItemLoader.NeedsAmmo(inventory[i], this))
++								flag2 = true;
++
+ 							if (flag2) {
+ 								SmartSelect_SelectItem(i);
+ 								return;
 @@ -12208,7 +_,7 @@
  							if (nonTorch == -1)
  								nonTorch = selectedItem;
@@ -1943,6 +1953,16 @@
  								selectedItem = i;
  
  							break;
+@@ -12223,6 +_,9 @@
+ 										}
+ 									}
+ 
++									if (!flag && !ItemLoader.NeedsAmmo(inventory[i], this))
++										flag = true;
++
+ 									if (flag) {
+ 										SmartSelect_SelectItem(i);
+ 										return;
 @@ -12235,6 +_,7 @@
  							case 3002:
  							case 3112:
@@ -3868,6 +3888,17 @@
  			if (isPettingAnimal) {
  				int num = miscCounter % 14 / 7;
  				CompositeArmStretchAmount stretch = CompositeArmStretchAmount.ThreeQuarters;
+@@ -34515,6 +_,10 @@
+ 						case 1614:
+ 							num3 = 187;
+ 							break;
++						case 0:
++							if (!ItemLoader.NeedsAmmo(sItem, this))
++								num3 = 127;
++							break;
+ 					}
+ 
+ 					if (num3 > 0) {
 @@ -34702,10 +_,12 @@
  				SetCompositeArmBack(enabled: true, stretch6, (float)Math.PI * -3f / 5f * (float)direction);
  				FlipItemLocationAndRotationForGravity();
@@ -4037,8 +4068,8 @@
  					}
  				}
 +
-+				if (!canUse)
-+					canUse = !ItemLoader.NeedsAmmo(sItem, this);
++				if (!canUse && !ItemLoader.NeedsAmmo(sItem, this))
++					canUse = true;
  			}
  
  			return canUse;
