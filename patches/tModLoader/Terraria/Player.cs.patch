@@ -4073,14 +4073,15 @@
  			}
  
  			return canUse;
-@@ -36484,6 +_,12 @@
+@@ -36484,6 +_,13 @@
  				}
  			}
  
 +			bool shootWithNoAmmo = false;
 +			if (!canShoot && !ItemLoader.NeedsAmmo(sItem, this)) {
-+				canShoot = shootWithNoAmmo = true;
-+				item.SetDefaults(sItem.useAmmo);
++				item = ContentSamples.ItemsByType[sItem.useAmmo];
++				if (item.ammo == sItem.useAmmo)
++					canShoot = shootWithNoAmmo = true;
 +			}
 +
  			if (!canShoot)
