@@ -64,6 +64,7 @@ namespace Terraria.ModLoader
 		}
 
 		internal static bool autoReloadAndEnableModsLeavingModBrowser = true;
+		internal static bool autoReloadRequiredModsLeavingModsScreen = true;
 		internal static bool dontRemindModBrowserUpdateReload;
 		internal static bool dontRemindModBrowserDownloadEnable;
 		internal static bool removeForcedMinimumZoom;
@@ -195,6 +196,7 @@ namespace Terraria.ModLoader
 				OnSuccessfulLoad = null;
 				skipLoad = false;
 				ModNet.NetReloadActive = false;
+				GOGModUpdateChecker.CheckModUpdates();
 			}
 		}
 
@@ -338,6 +340,7 @@ namespace Terraria.ModLoader
 			Main.Configuration.Put("DownloadModsFromServers", ModNet.downloadModsFromServers);
 			Main.Configuration.Put("OnlyDownloadSignedModsFromServers", ModNet.onlyDownloadSignedMods);
 			Main.Configuration.Put("AutomaticallyReloadAndEnableModsLeavingModBrowser", autoReloadAndEnableModsLeavingModBrowser);
+			Main.Configuration.Put("AutomaticallyReloadRequiredModsLeavingModsScreen", autoReloadRequiredModsLeavingModsScreen);
 			Main.Configuration.Put("DontRemindModBrowserUpdateReload", dontRemindModBrowserUpdateReload);
 			Main.Configuration.Put("DontRemindModBrowserDownloadEnable", dontRemindModBrowserDownloadEnable);
 			Main.Configuration.Put("RemoveForcedMinimumZoom", removeForcedMinimumZoom);
@@ -360,6 +363,7 @@ namespace Terraria.ModLoader
 			Main.Configuration.Get("DownloadModsFromServers", ref ModNet.downloadModsFromServers);
 			Main.Configuration.Get("OnlyDownloadSignedModsFromServers", ref ModNet.onlyDownloadSignedMods);
 			Main.Configuration.Get("AutomaticallyReloadAndEnableModsLeavingModBrowser", ref autoReloadAndEnableModsLeavingModBrowser);
+			Main.Configuration.Get("AutomaticallyReloadRequiredModsLeavingModsScreen", ref autoReloadRequiredModsLeavingModsScreen);
 			Main.Configuration.Get("DontRemindModBrowserUpdateReload", ref dontRemindModBrowserUpdateReload);
 			Main.Configuration.Get("DontRemindModBrowserDownloadEnable", ref dontRemindModBrowserDownloadEnable);
 			Main.Configuration.Get("RemoveForcedMinimumZoom", ref removeForcedMinimumZoom);
