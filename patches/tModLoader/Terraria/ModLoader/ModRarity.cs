@@ -3,13 +3,13 @@ using System;
 
 namespace Terraria.ModLoader
 {
-	public abstract class ModRarity : ModType
+	public abstract class ModRarity : ModType, IModTypeWithId
 	{
 		public int Type { get; internal set; }
 
 		protected sealed override void Register() {
-			ModTypeLookup<ModRarity>.Register(this);
 			Type = RarityLoader.Add(this);
+			ModTypeLookup<ModRarity>.Register(this);
 		}
 
 		/// <summary>

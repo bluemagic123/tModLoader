@@ -5,7 +5,7 @@ namespace Terraria.ModLoader
 	/// <summary>
 	/// This is the superclass for ModTile and ModWall, combining common code
 	/// </summary>
-	public abstract class ModBlockType : ModTexturedType
+	public abstract class ModBlockType : ModTexturedType, IModTypeWithId
 	{
 		/// <summary> The internal ID of this type of tile/wall. </summary>
 		public ushort Type { get; internal set; }
@@ -24,6 +24,8 @@ namespace Terraria.ModLoader
 
 		/// <summary> The vanilla ID of what should replace the instance when a user unloads and subsequently deletes data from your mod in their save file. Defaults to 0. </summary>
 		public ushort VanillaFallbackOnModDeletion { get; set; } = 0;
+
+		int IModTypeWithId.Type => Type;
 
 		/// <summary>
 		/// Creates a ModTranslation object that you can use in AddMapEntry.

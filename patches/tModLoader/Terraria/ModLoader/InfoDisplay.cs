@@ -4,7 +4,7 @@ using Terraria.Localization;
 
 namespace Terraria.ModLoader
 {
-	public abstract class InfoDisplay : ModTexturedType
+	public abstract class InfoDisplay : ModTexturedType, IModTypeWithId
 	{
 		public static InfoDisplay Watches { get; private set; } = new WatchesInfoDisplay();
 		public static InfoDisplay WeatherRadio { get; private set; } = new WeatherRadioInfoDisplay();
@@ -60,10 +60,9 @@ namespace Terraria.ModLoader
 
 		protected override void Register() {
 			InfoName = LocalizationLoader.GetOrCreateTranslation(Mod, $"InfoDisplayName.{Name}");
+			Type = InfoDisplayLoader.Add(this);
 
 			ModTypeLookup<InfoDisplay>.Register(this);
-
-			Type = InfoDisplayLoader.Add(this);
 		}
 	}
 }

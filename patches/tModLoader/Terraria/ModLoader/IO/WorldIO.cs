@@ -182,9 +182,11 @@ namespace Terraria.ModLoader.IO
 				if (NPC.killCount[type] <= 0)
 					continue;
 
+				var modNpc = ModContent.Get<ModNPC>(type);
+
 				list.Add(new TagCompound {
-					["mod"] = NPCLoader.GetNPC(type).Mod.Name,
-					["name"] = NPCLoader.GetNPC(type).Name,
+					["mod"] = modNpc.Mod.Name,
+					["name"] = modNpc.Name,
 					["count"] = NPC.killCount[type]
 				});
 			}
@@ -207,7 +209,7 @@ namespace Terraria.ModLoader.IO
 				return null;
 
 			int type = Main.anglerQuestItemNetIDs[Main.anglerQuest];
-			var modItem = ItemLoader.GetItem(type);
+			var modItem = ModContent.Get<ModItem>(type);
 
 			return new TagCompound {
 				["mod"] = modItem.Mod.Name,
@@ -235,7 +237,7 @@ namespace Terraria.ModLoader.IO
 			var list = new List<TagCompound>();
 			foreach (Tuple<int, Point> pair in WorldGen.TownManager._roomLocationPairs) {
 				if (pair.Item1 >= NPCID.Count) {
-					ModNPC npc = NPCLoader.GetNPC(pair.Item1);
+					ModNPC npc = ModContent.Get<ModNPC>(pair.Item1);
 					TagCompound tag = new TagCompound {
 						["mod"] = npc.Mod.Name,
 						["name"] = npc.Name,

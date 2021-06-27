@@ -1974,7 +1974,7 @@
  			if (inventory[selectedItem].createTile == 4 && inventory[selectedItem].placeStyle < 22)
  				nearbyTorch[inventory[selectedItem].placeStyle] = true;
  
-+			if (TileLoader.GetTile(inventory[selectedItem].createTile) is ModTile modTile && TileID.Sets.Torch[modTile.Type])
++			if (ModContent.TryGet<ModTile>(inventory[selectedItem].createTile, out var modTile) && TileID.Sets.Torch[modTile.Type])
 +				NearbyModTorch.Add(modTile.Type);
 +
  			float num = 0f;
@@ -4190,7 +4190,7 @@
  
  			if (tileTarget.type == 147 || tileTarget.type == 0 || tileTarget.type == 40 || tileTarget.type == 53 || tileTarget.type == 57 || tileTarget.type == 59 || tileTarget.type == 123 || tileTarget.type == 224 || tileTarget.type == 397)
  				num += pickPower;
-@@ -37121,24 +_,47 @@
+@@ -37121,24 +_,48 @@
  		}
  
  		public void DropItems() {
@@ -4204,7 +4204,8 @@
 +				startCounts[item.netID] += item.stack;
 +			}
 +
-+			startCounts[ModContent.ItemType<ModLoader.Default.StartBag>()] = 1;
++			startCounts[ModContent.GetId<ModLoader.Default.StartBag>()] = 1;
++
  			for (int i = 0; i < 59; i++) {
  				if (inventory[i].stack > 0) {
 +					Item item = inventory[i];

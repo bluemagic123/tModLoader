@@ -24,7 +24,7 @@ namespace Terraria.ModLoader
 		Custom
 	}
 
-	public abstract class ModPrefix : ModType
+	public abstract class ModPrefix : ModType, IModTypeWithId
 	{
 		public int Type { get; internal set; }
 

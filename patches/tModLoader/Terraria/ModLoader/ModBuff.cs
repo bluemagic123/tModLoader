@@ -7,7 +7,7 @@ namespace Terraria.ModLoader
 	/// <summary>
 	/// This class serves as a place for you to define a new buff and how that buff behaves.
 	/// </summary>
-	public abstract class ModBuff : ModTexturedType
+	public abstract class ModBuff : ModTexturedType, IModTypeWithId
 	{
 		/// <summary> The buff id of this buff. </summary>
 		public int Type { get; internal set; }
@@ -25,9 +25,9 @@ namespace Terraria.ModLoader
 		public bool CanBeCleared { get; set; } = true;
 
 		protected override sealed void Register() {
+			Type = BuffLoader.ReserveBuffID();
 			ModTypeLookup<ModBuff>.Register(this);
 
-			Type = BuffLoader.ReserveBuffID();
 			DisplayName = LocalizationLoader.GetOrCreateTranslation(Mod, $"BuffName.{Name}");
 			Description = LocalizationLoader.GetOrCreateTranslation(Mod, $"BuffDescription.{Name}");
 

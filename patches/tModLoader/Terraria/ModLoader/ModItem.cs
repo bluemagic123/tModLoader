@@ -18,7 +18,7 @@ namespace Terraria.ModLoader
 	/// <summary>
 	/// This class serves as a place for you to place all your properties and hooks for each item. Create instances of ModItem (preferably overriding this class) to pass as parameters to Mod.AddItem.
 	/// </summary>
-	public abstract class ModItem : ModTexturedType
+	public abstract class ModItem : ModTexturedType, IModTypeWithId
 	{
 		/// <summary>
 		/// The item object that this ModItem controls.
@@ -49,12 +49,13 @@ namespace Terraria.ModLoader
 		}
 
 		protected sealed override void Register() {
+			Item.type = ItemLoader.ReserveItemID();
 			ModTypeLookup<ModItem>.Register(this);
 
 			DisplayName = LocalizationLoader.GetOrCreateTranslation(Mod, $"ItemName.{Name}");
 			Tooltip = LocalizationLoader.GetOrCreateTranslation(Mod, $"ItemTooltip.{Name}", true);
 
-			Item.ResetStats(ItemLoader.ReserveItemID());
+			Item.ResetStats(Type);
 			Item.ModItem = this;
 
 			ItemLoader.items.Add(this);
